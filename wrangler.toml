@@ -1,0 +1,5 @@
+# Cloudflare Pages 部署配置
+# CLI 部署：npx wrangler pages deploy dist
+# 首次使用需登录：npx wrangler login
+name = "scalehub"
+pages_build_output_dir = "dist"

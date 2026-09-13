@@ -51,7 +51,7 @@ npm run build      # 构建产物输出至 dist/
 - Tailwind CSS
 - ECharts（按需引入）
 - 数据存储：localStorage
-- 部署：GitHub Pages + GitHub Actions
+- 部署：GitHub Pages（Actions）/ Cloudflare Pages
 
 ## 📁 目录结构
 
@@ -73,9 +73,11 @@ src/
 
 评分、结果解读、历史与趋势图将自动支持，无需改动评分引擎。
 
-## 📦 部署（GitHub Pages）
+## 📦 部署
 
-项目已内置 `.github/workflows/deploy.yml`，推送到 `main` 分支即可自动部署。
+项目支持 **GitHub Pages** 与 **Cloudflare Pages** 两种部署方式，构建时会自动识别平台并切换资源 base 路径（GitHub Pages → `/scalehub/`，Cloudflare Pages → `/`），无需手动修改配置。
+
+### 方式一：GitHub Pages（GitHub Actions 自动部署）
 
 1. 在 GitHub 创建仓库（仓库名 `scalehub`）
 2. 推送代码：
@@ -86,7 +88,29 @@ git push -u origin main
 ```
 
 3. 仓库 Settings → Pages → Source 选择 **GitHub Actions**
-4. 构建使用 `base: '/scalehub/'`，访问地址为 `https://<用户名>.github.io/scalehub/`
+4. 推送到 `main` 分支后自动构建部署，访问地址为 `https://<用户名>.github.io/scalehub/`
+
+### 方式二：Cloudflare Pages
+
+**方法 A：连接 GitHub 仓库（推荐，推送自动部署）**
+
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create application** → **Pages** → **Connect to Git**，选择本仓库
+2. 构建设置：
+   - Framework preset：`Vue`（或 None）
+   - Build command：`npm run build`
+   - Build output directory：`dist`
+3. 保存并部署，之后每次推送到 `main` 分支会自动重新部署
+4. 访问地址为 `https://<项目名>.pages.dev`
+
+**方法 B：Wrangler CLI 手动部署**
+
+```bash
+npm run build
+npx wrangler login     # 首次使用需登录授权
+npx wrangler pages deploy dist
+```
+
+> 两种平台均为纯静态托管，本项目使用 Hash 路由，无需配置任何重写（redirect）规则。
 
 ## 📝 版本与更新日志
 

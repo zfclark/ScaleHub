@@ -28,6 +28,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       '全部数据仅存储于本地浏览器（localStorage），不上传服务器',
       '支持浅色 / 深色主题切换',
       '量表列表支持关键词搜索（名称、简介、标签），可与标签筛选组合使用',
+      '支持 GitHub Pages 与 Cloudflare Pages 双平台部署，构建时自动识别平台切换资源路径',
       '每个量表详情页标注题数、预计时长与适用人群',
     ],
   },

@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "typecheck": "vue-tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:gh": "git push origin main",
+    "deploy:cf": "npm run build && npx wrangler pages deploy dist"
   },
   "dependencies": {
     "echarts": "^5.5.1",
