@@ -13,7 +13,7 @@ export interface ChangelogEntry {
   items: string[]
 }
 
-/** 更新日志：发版时在此追加新条目（最新在前） */
+/** 更新日志：与根目录 CHANGELOG.md 保持一致（应用内「关于」页展示用），发版时两处同步追加 */
 export const CHANGELOG: ChangelogEntry[] = [
   {
     version: '1.0.0',
