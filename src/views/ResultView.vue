@@ -69,7 +69,7 @@ const completedAtLabel = computed(() =>
       <p class="text-xs text-slate-500 dark:text-slate-400">
         {{ result.dimensions.length > 0 ? '总分（仅参考，解读以维度分为准）' : '总分' }}
       </p>
-      <p class="mt-2 text-5xl font-bold tracking-tight">
+      <p class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
         {{ result.total }}
         <span class="text-base font-normal text-slate-400">/ {{ result.max }}</span>
       </p>

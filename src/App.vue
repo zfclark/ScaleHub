@@ -6,7 +6,7 @@ import SiteFooter from '@/components/SiteFooter.vue'
 <template>
   <div class="flex min-h-screen flex-col">
     <SiteHeader />
-    <main class="mx-auto w-full max-w-4xl flex-1 px-4 py-8 sm:px-6">
+    <main class="mx-auto w-full max-w-4xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
       <router-view />
     </main>
     <SiteFooter />

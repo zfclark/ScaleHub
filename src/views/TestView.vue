@@ -38,6 +38,9 @@ onMounted(() => {
 
 const currentQuestion = computed(() => scale.value?.questions[currentIndex.value] ?? null)
 const answeredCount = computed(() => Object.keys(answers.value).length)
+const unansweredCount = computed(
+  () => (scale.value?.questions.length ?? 0) - answeredCount.value,
+)
 const isLast = computed(
   () => scale.value !== null && currentIndex.value === scale.value.questions.length - 1,
 )
@@ -143,14 +146,20 @@ function submit() {
       </Transition>
     </div>
 
-    <div class="flex items-center justify-between">
-      <button class="btn-secondary" :disabled="currentIndex === 0" @click="goPrev">
+    <!-- 操作栏：移动端固定底部，便于单手操作 -->
+    <div
+      class="sticky bottom-0 z-10 -mx-4 flex items-center justify-between gap-2 border-t border-slate-200/80 bg-slate-50/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90 sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-0"
+    >
+      <button class="btn-secondary flex-shrink-0 !px-3.5 !py-2 sm:!px-5 sm:!py-2.5" :disabled="currentIndex === 0" @click="goPrev">
         上一题
       </button>
-      <span class="text-xs text-slate-400">已答 {{ answeredCount }}/{{ scale.questions.length }}</span>
-      <button v-if="!isLast" class="btn-secondary" @click="goNext">下一题</button>
-      <button v-else class="btn-primary" :disabled="!canSubmit" @click="submit">
-        {{ canSubmit ? '提交并查看结果' : '还有未答题' }}
+      <span class="text-center text-xs text-slate-400">
+        已答 {{ answeredCount }}/{{ scale.questions.length }}
+        <template v-if="unansweredCount > 0"> · 剩余 {{ unansweredCount }} 题</template>
+      </span>
+      <button v-if="!isLast" class="btn-secondary flex-shrink-0 !px-3.5 !py-2 sm:!px-5 sm:!py-2.5" @click="goNext">下一题</button>
+      <button v-else class="btn-primary flex-shrink-0 !px-3.5 !py-2 sm:!px-5 sm:!py-2.5" :disabled="!canSubmit" @click="submit">
+        {{ canSubmit ? '提交' : '答题后提交' }}
       </button>
     </div>
 

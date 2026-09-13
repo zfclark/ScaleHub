@@ -6,10 +6,10 @@ const theme = useThemeStore()
 const faviconUrl = `${import.meta.env.BASE_URL}favicon.svg`
 
 const navItems = [
-  { to: '/', label: '首页' },
-  { to: '/scales', label: '量表列表' },
-  { to: '/history', label: '历史记录' },
-  { to: '/about', label: '关于' },
+  { to: '/', label: '首页', shortLabel: '首页' },
+  { to: '/scales', label: '量表列表', shortLabel: '量表' },
+  { to: '/history', label: '历史记录', shortLabel: '历史' },
+  { to: '/about', label: '关于', shortLabel: '关于' },
 ]
 </script>
 
@@ -17,23 +17,24 @@ const navItems = [
   <header
     class="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80"
   >
-    <div class="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4 sm:px-6">
-      <router-link to="/" class="flex items-center gap-2">
+    <div class="mx-auto flex h-14 w-full max-w-4xl items-center justify-between gap-2 px-4 sm:px-6">
+      <router-link to="/" class="flex flex-shrink-0 items-center gap-2">
         <img :src="faviconUrl" alt="ScaleHub" class="h-7 w-7" />
         <span class="text-base font-bold tracking-tight">ScaleHub</span>
         <span class="hidden text-xs text-slate-500 sm:inline dark:text-slate-400">
           心理自测量表集合
         </span>
       </router-link>
-      <nav class="flex items-center gap-1">
+      <nav class="flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1">
         <router-link
           v-for="item in navItems"
           :key="item.to"
           :to="item.to"
-          class="rounded-lg px-3 py-1.5 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+          class="flex-shrink-0 whitespace-nowrap rounded-lg px-2 py-1.5 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 sm:px-3 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
           active-class="!text-indigo-600 dark:!text-indigo-400 font-medium"
         >
-          {{ item.label }}
+          <span class="hidden sm:inline">{{ item.label }}</span>
+          <span class="sm:hidden">{{ item.shortLabel }}</span>
         </router-link>
         <button
           class="ml-1 rounded-lg p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"

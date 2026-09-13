@@ -17,12 +17,13 @@ const emit = defineEmits<{
       v-for="option in question.options"
       :key="option.value"
       type="button"
-      class="block w-full rounded-xl border px-4 py-3.5 text-left text-sm transition"
+      class="flex min-h-[52px] w-full touch-manipulation select-none items-center rounded-xl border px-4 py-3 text-left text-sm transition active:scale-[0.99]"
       :class="
         modelValue === option.value
           ? 'border-indigo-600 bg-indigo-50 font-medium text-indigo-700 dark:border-indigo-400 dark:bg-indigo-500/15 dark:text-indigo-300'
           : 'border-slate-200 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-indigo-500/50 dark:hover:bg-indigo-500/10'
       "
+      :aria-pressed="modelValue === option.value"
       @click="emit('update:modelValue', option.value)"
     >
       <span

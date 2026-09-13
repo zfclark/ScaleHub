@@ -58,8 +58,9 @@ function clearKeyword() {
       <input
         v-model="keyword"
         type="search"
+        aria-label="搜索量表"
         placeholder="搜索量表名称、简介或标签，如：焦虑、睡眠、自尊…"
-        class="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-10 text-sm text-slate-800 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        class="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-10 text-base text-slate-800 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 sm:text-sm"
       />
       <button
         v-if="keyword"
@@ -89,8 +90,8 @@ function clearKeyword() {
       </button>
     </div>
 
-    <p class="text-xs text-slate-400 dark:text-slate-500">
-      {{ filtered.length ? `匹配 ${filtered.length} 个量表` : '' }}
+    <p v-if="filtered.length" class="text-xs text-slate-400 dark:text-slate-500">
+      匹配 {{ filtered.length }} 个量表
     </p>
 
     <div v-if="filtered.length" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

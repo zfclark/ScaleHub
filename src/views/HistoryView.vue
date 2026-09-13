@@ -112,7 +112,7 @@ function confirmDelete() {
           <label class="mb-1.5 block text-xs text-slate-500 dark:text-slate-400">选择量表查看趋势</label>
           <select
             v-model="selectedScaleId"
-            class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 sm:w-72"
+            class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-base dark:border-slate-700 dark:bg-slate-900 sm:w-72 sm:text-sm"
           >
             <option value="" disabled>请选择量表（需至少 2 次记录）</option>
             <option
