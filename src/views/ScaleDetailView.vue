@@ -93,6 +93,9 @@ function startTest(fresh: boolean) {
         <h2 class="text-sm font-semibold">计分方式</h2>
         <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
           各题按选项分值求和得到总分
+          <template v-if="scale.scoring.multiplier">
+            ，再乘以 {{ scale.scoring.multiplier }} 折算为标准分（四舍五入取整）
+          </template>
           <template v-if="scale.scoring.dimensions?.length">
             ；并按维度分别计算维度分<template v-if="scale.scoring.dimensions.some((d) => d.multiplier)">
               （维度分需乘以 {{ scale.scoring.dimensions.find((d) => d.multiplier)?.multiplier }} 折算）</template>。

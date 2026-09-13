@@ -73,6 +73,8 @@ export interface ScoringConfig {
   min?: number
   /** 理论最高分 */
   max: number
+  /** 总分倍率（如 SAS 标准分 = 原始总分 × 1.25），默认 1；应用后四舍五入取整 */
+  multiplier?: number
   /** 需要反向计分的题目 id 列表 */
   reverse: string[]
   /** 题目权重（可选），key 为题目 id */

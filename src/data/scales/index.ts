@@ -10,6 +10,7 @@ import { isi } from './isi'
 import { rses } from './rses'
 import { gses } from './gses'
 import { swls } from './swls'
+import { sas } from './sas'
 
 /**
  * 量表注册表：新增量表只需
@@ -29,6 +30,7 @@ export const scales: ScaleConfig[] = [
   rses,
   gses,
   swls,
+  sas,
 ]
 
 export function getScaleById(id: string): ScaleConfig | undefined {

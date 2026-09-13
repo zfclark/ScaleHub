@@ -67,7 +67,7 @@ export function firstUnansweredIndex(
  * @param answers 以题目 id 为 key、选项分值为 value 的答案表
  */
 export function computeResult(config: ScaleConfig, answers: Record<string, number>): ScoreResult {
-  let total = 0
+  let rawTotal = 0
   let answered = 0
 
   for (const q of config.questions) {
@@ -78,8 +78,12 @@ export function computeResult(config: ScaleConfig, answers: Record<string, numbe
     const value = config.scoring.reverse.includes(q.id)
       ? maxOptionValue(config, q.id) - raw
       : raw
-    total += value * weight
+    rawTotal += value * weight
   }
+
+  // 总分倍率（如 SAS 标准分 = 原始分 × 1.25），应用后取整
+  const mult = config.scoring.multiplier ?? 1
+  const total = mult === 1 ? rawTotal : Math.round(rawTotal * mult)
 
   // 维度分
   const dimensions: DimensionScore[] = (config.scoring.dimensions ?? []).map((dim) => {
