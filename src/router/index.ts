@@ -51,7 +51,7 @@ const router = createRouter({
       path: '/crisis',
       name: 'crisis',
       component: () => import('@/views/CrisisView.vue'),
-      meta: { title: '危机资源' },
+      meta: { title: '心理援助' },
     },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],

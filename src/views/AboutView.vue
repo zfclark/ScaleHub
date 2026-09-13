@@ -71,7 +71,7 @@ import {
       <p>
         如果您正处于明显的情绪困扰中，或结果提示中重度水平，请及时寻求精神科医生、心理咨询师等专业人士的帮助。
         如遇紧急情况，请访问
-        <router-link to="/crisis" class="text-indigo-600 hover:underline dark:text-indigo-400">危机资源页</router-link>。
+        <router-link to="/crisis" class="text-indigo-600 hover:underline dark:text-indigo-400">心理援助页</router-link>。
       </p>
     </section>
   </div>

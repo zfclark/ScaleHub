@@ -13,7 +13,7 @@
       <span>
         <strong>重要提示：</strong>
         ScaleHub 是自我了解与自我觉察工具，所有量表结果均<strong>不构成医学诊断</strong>。若结果提示中重度困扰，或您的状态持续影响生活，请及时寻求精神科医生或心理咨询师的专业帮助。
-        <router-link to="/crisis" class="font-medium underline">如遇紧急情况请点击此处获取危机资源。</router-link>
+        <router-link to="/crisis" class="font-medium underline">如遇紧急情况，请点击这里获取心理援助信息。</router-link>
       </span>
     </p>
   </div>

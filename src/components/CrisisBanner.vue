@@ -23,7 +23,7 @@ defineProps<{
     <p class="mb-3 leading-relaxed">{{ message }}</p>
     <p>
       您此刻的感受值得被认真对待。请访问
-      <router-link to="/crisis" class="font-bold underline">危机资源页</router-link>
+      <router-link to="/crisis" class="font-bold underline">心理援助页</router-link>
       获取心理援助热线，或拨打 120 / 前往最近医院的急诊科。痛苦是可以缓解的，您不必独自承受。
     </p>
   </div>

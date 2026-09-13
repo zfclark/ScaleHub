@@ -9,9 +9,9 @@ import { APP_VERSION_NAME } from '@/version'
         ScaleHub {{ APP_VERSION_NAME }} · 本工具仅供自我了解参考，不构成医学诊断或治疗建议
       </p>
       <p>
-        如您正处于情绪危机中，请访问
+        如您正处于情绪困扰中，请访问
         <router-link to="/crisis" class="text-indigo-600 hover:underline dark:text-indigo-400">
-          危机资源页
+          心理援助页
         </router-link>
         或立即联系专业援助
       </p>

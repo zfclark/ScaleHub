@@ -137,7 +137,7 @@ const completedAtLabel = computed(() =>
     <div class="flex flex-wrap gap-3">
       <router-link v-if="scale" :to="`/scales/${scale.id}/test`" class="btn-primary">再测一次</router-link>
       <router-link to="/history" class="btn-secondary">查看历史记录</router-link>
-      <router-link to="/crisis" class="btn-secondary">危机资源</router-link>
+      <router-link to="/crisis" class="btn-secondary">心理援助</router-link>
     </div>
   </div>
 

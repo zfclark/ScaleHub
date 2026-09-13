@@ -38,7 +38,7 @@ export interface DimensionDef {
   bands?: ScoreBand[]
 }
 
-/** 特殊触发项（如自杀风险题），条件命中后展示危机资源 */
+/** 特殊触发项（如自杀风险题），条件命中后展示心理援助信息 */
 export interface CriticalItem {
   questionId: string
   /** 形如 ">0" / ">=1" / ">=2" / "==3" / "!=0" 的简单比较表达式 */

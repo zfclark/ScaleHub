@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-8">
     <div>
-      <h1 class="text-2xl font-bold">危机资源</h1>
+      <h1 class="text-2xl font-bold">心理援助</h1>
       <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
         如果您此刻感到痛苦、绝望，或有伤害自己的念头，<strong>请立即寻求帮助</strong>。
         您的感受值得被认真对待，专业的支持可以带来真实的改变。您并不孤单。
