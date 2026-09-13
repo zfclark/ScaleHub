@@ -4,8 +4,8 @@ import type { ScaleConfig } from '@/types/scale'
 defineProps<{ scale: ScaleConfig }>()
 
 const licenseLabel: Record<string, string> = {
-  'public-domain': '公有领域',
-  'free-with-citation': '免费使用（需引用来源）',
+  'public-domain': '公开可用',
+  'free-with-citation': '免费使用',
   'permission-required': '需获得授权',
 }
 </script>

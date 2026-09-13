@@ -20,8 +20,8 @@ const progressCount = computed(() =>
 )
 
 const licenseLabel: Record<string, string> = {
-  'public-domain': '公有领域',
-  'free-with-citation': '免费使用（需引用来源）',
+  'public-domain': '公开可用',
+  'free-with-citation': '免费使用',
   'permission-required': '需获得授权',
 }
 
@@ -139,11 +139,6 @@ function startTest(fresh: boolean) {
     </section>
 
     <DisclaimerBlock />
-
-    <!-- 来源 -->
-    <section class="text-xs leading-relaxed text-slate-400 dark:text-slate-500">
-      <span class="font-medium">来源 / 引用：</span>{{ scale.license.source }}
-    </section>
   </div>
 
   <div v-else class="py-20 text-center">

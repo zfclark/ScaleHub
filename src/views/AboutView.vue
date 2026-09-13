@@ -14,7 +14,7 @@ import {
       <h1 class="text-2xl font-bold">关于 {{ APP_NAME }}</h1>
       <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
         {{ APP_NAME }}（{{ APP_SUBTITLE }}）是一个纯前端的心理自测量表集合与自我了解工具。
-        {{ APP_SLOGAN }}项目提供的量表均为国际通用或可免费引用的公开量表，
+        {{ APP_SLOGAN }}项目提供的量表均为国际通用的公开量表，
         用于帮助您更好地觉察自己的情绪、压力与自我认知状态。
       </p>
       <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
@@ -35,7 +35,7 @@ import {
       <ul class="list-disc space-y-1.5 pl-5">
         <li>量表配置化：评分逻辑由通用引擎驱动，支持总分、维度分、反向计分、加权与特殊触发规则</li>
         <li>数据完全本地：答题记录与历史仅存储在浏览器 localStorage，可随时导出为 JSON / CSV</li>
-        <li>规范引用：每个量表标注题数、时长、适用人群与版权来源</li>
+        <li>信息透明：每个量表标注题数、时长与适用人群</li>
         <li>复测友好：断点续答、历史时间线与趋势图，帮助追踪长期变化</li>
       </ul>
     </section>

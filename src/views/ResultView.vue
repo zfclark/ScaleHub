@@ -139,10 +139,6 @@ const completedAtLabel = computed(() =>
       <router-link to="/history" class="btn-secondary">查看历史记录</router-link>
       <router-link to="/crisis" class="btn-secondary">危机资源</router-link>
     </div>
-
-    <p v-if="scale" class="text-xs leading-relaxed text-slate-400 dark:text-slate-500">
-      来源 / 引用：{{ scale.license.source }}
-    </p>
   </div>
 
   <div v-else class="py-20 text-center">
