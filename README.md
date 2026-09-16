@@ -2,19 +2,19 @@
 
 > 用几分钟，更了解自己。
 
-ScaleHub 是一个纯前端的**心理自测量表集合与自我了解工具**。在线答题、自动计分、即时解读、历史趋势追踪——所有数据只保存在用户本地浏览器，不上传任何服务器。
+ScaleHub 是一个纯前端的**心理自测量表集合与自我了解工具**：在线答题、自动计分、即时解读、历史趋势追踪。所有数据只保存在本地浏览器，不上传任何服务器。
 
 ## ✨ 特性
 
-- **量表配置化**：量表以配置数据描述，评分逻辑由通用引擎驱动，支持总分、维度分、反向计分、加权、临界值与特殊触发规则
-- **数据完全本地**：答题记录与历史仅存储于浏览器 localStorage，无账号、无上传、无追踪，支持导出 JSON / CSV
+- **配置驱动**：量表以配置数据描述，评分由通用引擎完成，支持总分、维度分、反向计分、加权、总分倍率（如 SAS 标准分）与风险题触发规则
+- **数据完全本地**：答题与历史仅存储于浏览器 localStorage，无账号、无上传、无追踪，支持导出 JSON / CSV
 - **即答即得分**：一次一题、进度条、断点续答；结果页展示等级、维度分、解释与建议
-- **搜索与筛选**：量表列表支持关键词搜索（名称 / 简介 / 标签）与标签筛选组合使用
-- **趋势可追踪**：历史时间线 + 复测趋势图（支持多维度量表如 DASS-21）
+- **搜索与筛选**：量表列表支持关键词搜索（名称 / 简介 / 标签），可与标签筛选组合
+- **趋势可追踪**：历史时间线 + 复测趋势图，多维度量表（如 DASS-21）可切换总分 / 维度分视图
 - **信息透明**：每个量表标注题数、预计时长与适用人群
-- **浅色 / 深色主题**切换
+- **浅色 / 深色主题**，移动端优先的响应式布局
 
-## 🧭 内容量表
+## 🧭 内置量表
 
 | 量表                    | 题数 | 用途                                 |
 | ----------------------- | ---- | ------------------------------------ |
@@ -23,7 +23,7 @@ ScaleHub 是一个纯前端的**心理自测量表集合与自我了解工具**�
 | GAD-2                   | 2    | 超快速焦虑初筛                       |
 | PHQ-2                   | 2    | 超快速抑郁初筛                       |
 | PSS-10                  | 10   | 压力知觉（4 题反向计分）             |
-| DASS-21                 | 21   | 抑郁/焦虑/压力三维度评估             |
+| DASS-21                 | 21   | 抑郁 / 焦虑 / 压力三维度评估         |
 | AIS 雅典失眠量表        | 8    | 失眠筛查                             |
 | ISI 失眠严重程度指数    | 7    | 失眠严重程度                         |
 | Rosenberg 自尊量表      | 10   | 整体自尊（5 题反向计分）             |
@@ -33,11 +33,14 @@ ScaleHub 是一个纯前端的**心理自测量表集合与自我了解工具**�
 
 ## 🚀 快速开始
 
+环境要求：Node.js ≥ 20.19（推荐 22 LTS）。
+
 ```bash
-npm install
+npm install        # 安装依赖
 npm run dev        # 本地开发
 npm run typecheck  # 类型检查
-npm run build      # 构建产物输出至 dist/
+npm run build      # 生产构建（输出至 dist/）
+npm run preview    # 本地预览构建产物
 ```
 
 ## 🏗️ 技术栈
@@ -45,11 +48,11 @@ npm run build      # 构建产物输出至 dist/
 - Vue 3（Composition API）+ Vite + TypeScript
 - Vue Router（Hash 模式）+ Pinia
 - Tailwind CSS
-- ECharts（按需引入）
+- ECharts（按需引入，独立分包按需加载）
 - 数据存储：localStorage
-- 部署：GitHub Pages（Actions）/ Cloudflare Pages
+- 部署：GitHub Pages（Actions）/ Cloudflare Workers 静态资产
 
-## 📁 目录结构
+## 📁 项目结构
 
 ```
 src/
@@ -57,8 +60,9 @@ src/
 ├── engine/scoring.ts     # 通用评分引擎（配置驱动）
 ├── data/scales/          # 量表配置（每量表一个文件，在 index.ts 注册）
 ├── stores/               # Pinia：answers / history / theme
-├── composables/useChart.ts
-├── components/           # 通用组件
+├── composables/          # useChart 等组合式函数
+├── components/           # 通用组件（量表卡片、选项组、免责声明等）
+├── router/               # 路由（Hash 模式）
 └── views/                # 页面视图
 ```
 
@@ -71,47 +75,42 @@ src/
 
 ## 📦 部署
 
-项目支持 **GitHub Pages** 与 **Cloudflare Pages** 两种部署方式，构建时会自动识别平台并切换资源 base 路径（GitHub Pages → `/scalehub/`，Cloudflare Pages → `/`），无需手动修改配置。
+支持两种部署目标，资源路径差异由构建命令自动处理，无需手动修改配置：
+
+| 部署目标     | 构建命令           | 资源路径     |
+| ------------ | ------------------ | ------------ |
+| GitHub Pages | `npm run build`    | `/scalehub/` |
+| Cloudflare   | `npm run build:cf` | `/`          |
 
 ### 方式一：GitHub Pages（GitHub Actions 自动部署）
+
+项目已内置 `.github/workflows/deploy.yml`，推送 `main` 分支即可自动部署：
 
 1. 在 GitHub 创建仓库（仓库名 `scalehub`）
 2. 推送代码：
 
-```bash
-git remote add origin https://github.com/<你的用户名>/scalehub.git
-git push -u origin main
-```
+    ```bash
+    git remote add origin https://github.com/<你的用户名>/scalehub.git
+    git push -u origin main
+    ```
 
-1. 仓库 Settings → Pages → Source 选择 **GitHub Actions**
-2. 推送到 `main` 分支后自动构建部署，访问地址为 `https://<用户名>.github.io/scalehub/`
+3. 仓库 Settings → Pages → Source 选择 **GitHub Actions**
+4. 之后每次推送到 `main` 分支自动构建部署，访问地址为 `https://<用户名>.github.io/scalehub/`
 
-### 方式二：Cloudflare Pages
+### 方式二：Cloudflare（Workers 静态资产）
 
-**方法 A：连接 GitHub 仓库（推荐，推送自动部署）**
+以 Workers 静态资产方式部署。`wrangler.toml` 已配置静态资产目录（`dist`），项目使用 Hash 路由，无需任何重写规则。
 
-1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create application** → **Pages** → **Connect to Git**，选择本仓库
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → 选择 **Workers** → **Connect to Git**，选择本仓库
 2. 构建设置：
-   - Framework preset：`Vue`（或 None）
-   - Build command：`npm run build`
-   - Build output directory：`dist`
-   - Deploy command：**留空**（重要！Pages 连接 Git 后会自动上传构建输出，填写 `wrangler deploy` 等 Worker 命令反而会报 "Missing entry-point" 错误）
-3. 保存并部署，之后每次推送到 `main` 分支会自动重新部署
-4. 访问地址为 `https://<项目名>.pages.dev`
-
-> **排错**：若部署日志出现 `Executing user deploy command: npx wrangler deploy` 并报 `Missing entry-point to Worker script`，说明 Deploy command 被误填为 Worker 部署命令。进入 **Settings → Build & deployments → Build configuration → Edit**，清空 Deploy command 后重试即可。
-
-**方法 B：Wrangler CLI 手动部署**
-
-```bash
-npm run build
-npx wrangler login     # 首次使用需登录授权
-npx wrangler pages deploy dist
-```
+    - Build command：`npm run build:cf`
+    - Deploy command：`npx wrangler deploy`
+3. 保存并部署，之后每次推送到 `main` 分支自动重新部署
+4. 访问地址为 `https://scalehub.<你的子域>.workers.dev`
 
 ## 📝 版本与更新日志
 
-当前版本：**V1.0.0**。完整更新日志见 [CHANGELOG.md](CHANGELOG.md)，应用内「关于」页同步展示。
+当前版本：**V1.1.0**。完整更新日志见 [CHANGELOG.md](CHANGELOG.md)，应用内「关于」页同步展示。
 
 ## ⚠️ 免责声明
 

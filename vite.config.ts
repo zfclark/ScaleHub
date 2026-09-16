@@ -3,11 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
-// 部署平台 base 自适应：
-// - GitHub Pages：子路径部署，使用 /scalehub/
-// - Cloudflare Pages：根路径部署（构建时平台会注入 CF_PAGES=1），使用 /
-export default defineConfig({
-  base: process.env.CF_PAGES ? '/' : '/scalehub/',
+// 部署平台 base 切换：
+// - npm run build（默认）：GitHub Pages 子路径部署，base = /scalehub/
+// - npm run build:cf：Cloudflare 根路径部署（Workers 静态资产），base = /
+export default defineConfig(({ mode }) => ({
+  base: mode === 'cloudflare' ? '/' : '/scalehub/',
   plugins: [vue()],
   resolve: {
     alias: {
@@ -24,4 +24,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

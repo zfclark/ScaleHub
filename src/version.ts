@@ -1,7 +1,7 @@
 /** 应用版本信息：与 package.json 及 README 保持一致 */
-export const APP_VERSION = '1.0.0'
+export const APP_VERSION = '1.1.0'
 /** 展示用版本号（V + 语义化版本） */
-export const APP_VERSION_NAME = 'V1.0.0'
+export const APP_VERSION_NAME = 'V1.1.0'
 export const APP_NAME = 'ScaleHub'
 export const APP_SUBTITLE = '心理自测量表集合'
 export const APP_SLOGAN = '用几分钟，更了解自己。'
@@ -16,6 +16,18 @@ export interface ChangelogEntry {
 /** 更新日志：与根目录 CHANGELOG.md 保持一致（应用内「关于」页展示用），发版时两处同步追加 */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.1.0',
+    name: 'V1.1.0',
+    date: '2026-09-17',
+    items: [
+      'Cloudflare 部署方式调整为 Workers 静态资产通用方案：wrangler.toml 声明静态资产目录，部署命令统一为 npx wrangler deploy',
+      '新增 npm run build:cf 构建模式，Cloudflare（根路径）与 GitHub Pages（子路径）资源路径按构建命令自动切换',
+      '移除本地手动部署方式（deploy:cf 脚本），部署统一走 Git 连接自动部署',
+      '修复 tsconfig 的 baseUrl 弃用问题，路径别名改为相对 tsconfig 解析',
+      'README 文档全面重写：部署对照表、Node 版本要求、项目结构说明等',
+    ],
+  },
+  {
     version: '1.0.0',
     name: 'V1.0.0',
     date: '2026-09-14',
@@ -28,7 +40,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       '全部数据仅存储于本地浏览器（localStorage），不上传服务器',
       '支持浅色 / 深色主题切换',
       '量表列表支持关键词搜索（名称、简介、标签），可与标签筛选组合使用',
-      '支持 GitHub Pages 与 Cloudflare Pages 双平台部署，构建时自动识别平台切换资源路径',
+      '支持 GitHub Pages 与 Cloudflare（Workers 静态资产）双平台部署，按构建模式自动切换资源路径',
       '每个量表详情页标注题数、预计时长与适用人群',
     ],
   },

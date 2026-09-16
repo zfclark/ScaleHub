@@ -1,5 +1,7 @@
-# Cloudflare Pages 部署配置
-# CLI 部署：npx wrangler pages deploy dist
-# 首次使用需登录：npx wrangler login
+# Cloudflare 部署配置（Workers 静态资产方式）
+# Cloudflare 构建环境：Build command = npm run build:cf，Deploy command = npx wrangler deploy
 name = "scalehub"
-pages_build_output_dir = "dist"
+compatibility_date = "2026-09-15"
+
+[assets]
+directory = "./dist"

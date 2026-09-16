@@ -2,6 +2,22 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 的格式记录更新内容，版本号采用语义化版本（[SemVer](https://semver.org/lang/zh-CN/)）。应用内「关于」页会同步展示此更新日志。
 
+## [1.1.0] · 2026-09-17
+
+### 调整
+
+- Cloudflare 部署方式调整为 **Workers 静态资产**通用方案：`wrangler.toml` 声明静态资产目录（`dist`），部署命令统一为 `npx wrangler deploy`，不再依赖 Pages 专用配置
+- 新增 `npm run build:cf` 构建模式：Cloudflare（根路径 `/`）与 GitHub Pages（子路径 `/scalehub/`）的资源路径按构建命令自动切换
+- 移除本地手动部署方式（`deploy:cf` 脚本），Cloudflare 统一通过 Git 连接自动部署
+
+### 修复
+
+- 移除 tsconfig 中已废弃的 `baseUrl`，路径别名改为相对 tsconfig 解析，消除编辑器弃用警告
+
+### 文档
+
+- README 全面重写：新增部署命令对照表、Node.js 版本要求与项目结构说明
+
 ## [1.0.0] · 2026-09-14
 
 ScaleHub 首个正式版本。
@@ -23,4 +39,5 @@ ScaleHub 首个正式版本。
 - 移动端优先的响应式布局
 - 双平台部署：GitHub Pages（GitHub Actions）与 Cloudflare Pages，构建时自动识别平台切换资源路径
 
-[1.0.0]: https://github.com/linhai/scalehub/releases/tag/v1.0.0
+[1.1.0]: https://github.com/zfclark/ScaleHub/releases/tag/v1.1.0
+[1.0.0]: https://github.com/zfclark/ScaleHub/releases/tag/v1.0.0
