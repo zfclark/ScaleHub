@@ -4,8 +4,6 @@
 
 ScaleHub 是一个纯前端的**心理自测量表集合与自我了解工具**。在线答题、自动计分、即时解读、历史趋势追踪——所有数据只保存在用户本地浏览器，不上传任何服务器。
 
-**当前版本：V1.0.0** · 更新日志见 [CHANGELOG.md](CHANGELOG.md) 或应用内「关于」页。
-
 ## ✨ 特性
 
 - **量表配置化**：量表以配置数据描述，评分逻辑由通用引擎驱动，支持总分、维度分、反向计分、加权、临界值与特殊触发规则
@@ -16,24 +14,22 @@ ScaleHub 是一个纯前端的**心理自测量表集合与自我了解工具**�
 - **信息透明**：每个量表标注题数、预计时长与适用人群
 - **浅色 / 深色主题**切换
 
-## 🧭 内容量表（V1.0.0）
+## 🧭 内容量表
 
-| 量表 | 题数 | 用途 |
-|---|---|---|
-| GAD-7 | 7 | 广泛性焦虑筛查 |
-| PHQ-9 | 9 | 抑郁筛查（含风险临界项） |
-| GAD-2 | 2 | 超快速焦虑初筛 |
-| PHQ-2 | 2 | 超快速抑郁初筛 |
-| PSS-10 | 10 | 压力知觉（4 题反向计分） |
-| DASS-21 | 21 | 抑郁/焦虑/压力三维度评估 |
-| AIS 雅典失眠量表 | 8 | 失眠筛查 |
-| ISI 失眠严重程度指数 | 7 | 失眠严重程度 |
-| Rosenberg 自尊量表 | 10 | 整体自尊（5 题反向计分） |
-| GSES 一般自我效能感量表 | 10 | 一般自我效能感 |
-| SWLS 生活满意度量表 | 5 | 整体生活满意度 |
-| SAS 焦虑自评量表 | 20 | 焦虑自评（标准分计分，5 题反向计分） |
-
-后续计划扩展：HADS、PSQI、BAI、SAS、SDS、SCL-90 等。
+| 量表                    | 题数 | 用途                                 |
+| ----------------------- | ---- | ------------------------------------ |
+| GAD-7                   | 7    | 广泛性焦虑筛查                       |
+| PHQ-9                   | 9    | 抑郁筛查（含风险临界项）             |
+| GAD-2                   | 2    | 超快速焦虑初筛                       |
+| PHQ-2                   | 2    | 超快速抑郁初筛                       |
+| PSS-10                  | 10   | 压力知觉（4 题反向计分）             |
+| DASS-21                 | 21   | 抑郁/焦虑/压力三维度评估             |
+| AIS 雅典失眠量表        | 8    | 失眠筛查                             |
+| ISI 失眠严重程度指数    | 7    | 失眠严重程度                         |
+| Rosenberg 自尊量表      | 10   | 整体自尊（5 题反向计分）             |
+| GSES 一般自我效能感量表 | 10   | 一般自我效能感                       |
+| SWLS 生活满意度量表     | 5    | 整体生活满意度                       |
+| SAS 焦虑自评量表        | 20   | 焦虑自评（标准分计分，5 题反向计分） |
 
 ## 🚀 快速开始
 
@@ -87,8 +83,8 @@ git remote add origin https://github.com/<你的用户名>/scalehub.git
 git push -u origin main
 ```
 
-3. 仓库 Settings → Pages → Source 选择 **GitHub Actions**
-4. 推送到 `main` 分支后自动构建部署，访问地址为 `https://<用户名>.github.io/scalehub/`
+1. 仓库 Settings → Pages → Source 选择 **GitHub Actions**
+2. 推送到 `main` 分支后自动构建部署，访问地址为 `https://<用户名>.github.io/scalehub/`
 
 ### 方式二：Cloudflare Pages
 
@@ -99,8 +95,11 @@ git push -u origin main
    - Framework preset：`Vue`（或 None）
    - Build command：`npm run build`
    - Build output directory：`dist`
+   - Deploy command：**留空**（重要！Pages 连接 Git 后会自动上传构建输出，填写 `wrangler deploy` 等 Worker 命令反而会报 "Missing entry-point" 错误）
 3. 保存并部署，之后每次推送到 `main` 分支会自动重新部署
 4. 访问地址为 `https://<项目名>.pages.dev`
+
+> **排错**：若部署日志出现 `Executing user deploy command: npx wrangler deploy` 并报 `Missing entry-point to Worker script`，说明 Deploy command 被误填为 Worker 部署命令。进入 **Settings → Build & deployments → Build configuration → Edit**，清空 Deploy command 后重试即可。
 
 **方法 B：Wrangler CLI 手动部署**
 
@@ -109,8 +108,6 @@ npm run build
 npx wrangler login     # 首次使用需登录授权
 npx wrangler pages deploy dist
 ```
-
-> 两种平台均为纯静态托管，本项目使用 Hash 路由，无需配置任何重写（redirect）规则。
 
 ## 📝 版本与更新日志
 
