@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { TestProgress } from '@/types/scale'
+import { safeGetItem, safeRemoveItem, safeSetItem } from '@/utils/storage'
 
 const KEY_PREFIX = 'scalehub:progress:'
 
@@ -13,9 +14,9 @@ export const useAnswersStore = defineStore('answers', {
   }),
   actions: {
     load(scaleId: string): TestProgress | null {
+      const raw = safeGetItem(KEY_PREFIX + scaleId)
+      if (!raw) return null
       try {
-        const raw = localStorage.getItem(KEY_PREFIX + scaleId)
-        if (!raw) return null
         const data = JSON.parse(raw) as TestProgress
         if (data.scaleId !== scaleId) return null
         return data
@@ -25,11 +26,11 @@ export const useAnswersStore = defineStore('answers', {
     },
     save(progress: TestProgress) {
       this.current = progress
-      localStorage.setItem(KEY_PREFIX + progress.scaleId, JSON.stringify(progress))
+      safeSetItem(KEY_PREFIX + progress.scaleId, JSON.stringify(progress))
     },
     clear(scaleId: string) {
       this.current = null
-      localStorage.removeItem(KEY_PREFIX + scaleId)
+      safeRemoveItem(KEY_PREFIX + scaleId)
     },
   },
 })

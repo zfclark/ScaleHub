@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
+import { safeGetItem, safeSetItem } from '@/utils/storage'
 
 const THEME_KEY = 'scalehub:theme'
 
 type ThemeMode = 'light' | 'dark'
 
 function detectInitialTheme(): ThemeMode {
-  const saved = localStorage.getItem(THEME_KEY)
+  const saved = safeGetItem(THEME_KEY)
   if (saved === 'light' || saved === 'dark') return saved
   if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) return 'dark'
   return 'light'
@@ -28,7 +29,7 @@ export const useThemeStore = defineStore('theme', {
     },
     toggle() {
       this.mode = this.mode === 'dark' ? 'light' : 'dark'
-      localStorage.setItem(THEME_KEY, this.mode)
+      safeSetItem(THEME_KEY, this.mode)
       applyTheme(this.mode)
     },
   },

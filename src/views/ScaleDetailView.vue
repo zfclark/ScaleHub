@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getScaleById } from '@/data/scales'
 import { useAnswersStore } from '@/stores/answers'
+import { licenseLabel } from '@/utils/license'
 import DisclaimerBlock from '@/components/DisclaimerBlock.vue'
 
 const route = useRoute()
@@ -19,11 +20,20 @@ const progressCount = computed(() =>
   progress.value ? Object.keys(progress.value.answers).length : 0,
 )
 
-const licenseLabel: Record<string, string> = {
-  'public-domain': '公开可用',
-  'free-with-citation': '免费使用',
-  'permission-required': '需获得授权',
-}
+/**
+ * 反向计分题号最多逐题列出多少个，超出则只报数量。
+ * IPIP-NEO-120 有 60 个反向条目、BFI 16 个，逐题列出会渲染出一行无法阅读的长文本。
+ */
+const REVERSE_LIST_LIMIT = 8
+
+const reverseLabel = computed(() => {
+  const reverse = scale.value?.scoring.reverse ?? []
+  if (!reverse.length) return ''
+  const numbers = reverse.map((id) => id.replace(/^q/, ''))
+  return numbers.length <= REVERSE_LIST_LIMIT
+    ? `第 ${numbers.join('、')} 题`
+    : `共 ${numbers.length} 题`
+})
 
 function startTest(fresh: boolean) {
   if (!scale.value) return
@@ -71,9 +81,9 @@ function startTest(fresh: boolean) {
         <div class="mt-1 text-lg font-semibold">{{ scale.scoring.min ?? 0 }} - {{ scale.scoring.max }}</div>
       </div>
       <div>
-        <div class="text-xs text-slate-500 dark:text-slate-400">版权/许可</div>
+        <div class="text-xs text-slate-500 dark:text-slate-400">授权状态</div>
         <div class="mt-1 text-sm font-semibold">
-          {{ licenseLabel[scale.license.status] ?? scale.license.status }}
+          {{ licenseLabel(scale.license.status) }}
         </div>
       </div>
       <div class="col-span-2 text-xs text-slate-500 sm:col-span-4 dark:text-slate-400">
@@ -100,8 +110,8 @@ function startTest(fresh: boolean) {
             ；并按维度分别计算维度分<template v-if="scale.scoring.dimensions.some((d) => d.multiplier)">
               （维度分需乘以 {{ scale.scoring.dimensions.find((d) => d.multiplier)?.multiplier }} 折算）</template>。
           </template>
-          <template v-if="scale.scoring.reverse.length">
-            第 {{ scale.scoring.reverse.map((r) => r.replace('q', '')).join('、') }} 题为反向计分，系统自动处理。
+          <template v-if="reverseLabel">
+            {{ reverseLabel }}为反向计分，系统自动处理。
           </template>
         </p>
         <div

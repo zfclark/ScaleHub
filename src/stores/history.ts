@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { ScoreResult, TestRecord } from '@/types/scale'
+import { safeGetItem, safeSetItem } from '@/utils/storage'
 
 const HISTORY_KEY = 'scalehub:history'
 const MAX_RECORDS = 500
@@ -26,15 +27,16 @@ export const useHistoryStore = defineStore('history', {
   },
   actions: {
     init() {
+      const raw = safeGetItem(HISTORY_KEY)
+      if (!raw) return
       try {
-        const raw = localStorage.getItem(HISTORY_KEY)
-        if (raw) this.records = JSON.parse(raw) as TestRecord[]
+        this.records = JSON.parse(raw) as TestRecord[]
       } catch {
         this.records = []
       }
     },
     persist() {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(this.records))
+      safeSetItem(HISTORY_KEY, JSON.stringify(this.records))
     },
     addRecord(scaleId: string, scaleTitle: string, answers: Record<string, number>, result: ScoreResult): TestRecord {
       const record: TestRecord = {

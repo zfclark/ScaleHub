@@ -9,6 +9,24 @@
       content="ScaleHub —— 心理自测量表集合。用几分钟，更了解自己。所有数据仅保存在本地浏览器，不上传服务器。"
     />
     <title>ScaleHub · 心理自测量表集合</title>
+    <script>
+      // 在应用脚本加载前先应用主题，避免暗色模式用户看到首屏闪白。
+      // 判定逻辑需与 src/stores/theme.ts 的 detectInitialTheme() 保持一致。
+      (function () {
+        try {
+          var saved = localStorage.getItem('scalehub:theme')
+          var mode =
+            saved === 'light' || saved === 'dark'
+              ? saved
+              : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+          if (mode === 'dark') document.documentElement.classList.add('dark')
+        } catch (e) {
+          /* 存储不可用时按默认浅色处理 */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="app"></div>

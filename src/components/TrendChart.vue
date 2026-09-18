@@ -76,7 +76,24 @@ function getOption() {
   }
 
   const dims = sorted.value[0].result.dimensions
-  const palette = ['#6366f1', '#14b8a6', '#f59e0b']
+  // 维度数最多可达 13（MMPI 三效度 + 十临床量表）、9（SCL-90 九因子），
+  // 调色板需足够长，否则颜色循环重复会导致不同维度看起来是同一条线
+  const palette = [
+    '#6366f1',
+    '#14b8a6',
+    '#f59e0b',
+    '#ef4444',
+    '#8b5cf6',
+    '#06b6d4',
+    '#84cc16',
+    '#ec4899',
+    '#f97316',
+    '#0ea5e9',
+    '#a855f7',
+    '#10b981',
+    '#eab308',
+    '#64748b',
+  ]
   return {
     tooltip: { trigger: 'axis' },
     legend: { textStyle: { color: textColor }, top: 0 },
@@ -133,7 +150,7 @@ useChart(chartEl, getOption, [() => props.records.length, () => mode.value, () =
       </div>
     </div>
     <p v-if="mode === 'dimensions'" class="mb-2 text-xs text-slate-400">
-      多维度量表（如 DASS-21）可查看各维度的变化趋势
+      已按维度拆分为多条折线，可对比各维度随时间的变化
     </p>
     <div ref="chartEl" class="h-64 w-full" />
   </div>

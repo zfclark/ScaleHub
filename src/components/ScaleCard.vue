@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import type { ScaleConfig } from '@/types/scale'
+import { licenseLabel } from '@/utils/license'
 
 defineProps<{ scale: ScaleConfig }>()
-
-const licenseLabel: Record<string, string> = {
-  'public-domain': '公开可用',
-  'free-with-citation': '免费使用',
-  'permission-required': '需获得授权',
-}
 </script>
 
 <template>
@@ -33,7 +28,7 @@ const licenseLabel: Record<string, string> = {
     <div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
       <span>{{ scale.questions.length }} 题</span>
       <span>约 {{ scale.meta.timeMinutes }} 分钟</span>
-      <span>{{ licenseLabel[scale.license.status] ?? scale.license.status }}</span>
+      <span>{{ licenseLabel(scale.license.status) }}</span>
     </div>
   </router-link>
 </template>

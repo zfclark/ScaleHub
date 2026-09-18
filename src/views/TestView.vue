@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getScaleById } from '@/data/scales'
 import { useAnswersStore } from '@/stores/answers'
@@ -21,23 +21,48 @@ const currentIndex = ref(0)
 const showMissing = ref(false)
 const autoAdvanceTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 
-onMounted(() => {
+/** 取消尚未触发的自动跳转，避免它在本题已被手动切换后又把进度推前一题 */
+function clearAutoAdvance() {
+  if (autoAdvanceTimer.value) {
+    clearTimeout(autoAdvanceTimer.value)
+    autoAdvanceTimer.value = null
+  }
+}
+
+/** 依据路由参数初始化答题状态；同一路由下切换量表时也需重新初始化 */
+function initFromRoute() {
   const id = route.params.id as string
   const found = getScaleById(id)
   if (!found) {
     router.replace('/scales')
     return
   }
+  clearAutoAdvance()
   scale.value = found
+  answers.value = {}
+  currentIndex.value = 0
+  showMissing.value = false
   const saved = answersStore.load(id)
   if (saved) {
     answers.value = saved.answers ?? {}
-    currentIndex.value = Math.min(saved.currentIndex ?? 0, found.questions.length - 1)
+    currentIndex.value = Math.min(
+      Math.max(saved.currentIndex ?? 0, 0),
+      found.questions.length - 1,
+    )
   }
-})
+}
+
+watch(() => route.params.id, initFromRoute, { immediate: true })
+
+// 组件卸载后定时器仍会触发，需主动清理
+onBeforeUnmount(clearAutoAdvance)
 
 const currentQuestion = computed(() => scale.value?.questions[currentIndex.value] ?? null)
-const answeredCount = computed(() => Object.keys(answers.value).length)
+// 只统计当前量表的题目：存档里若残留已移除题目的作答，不应计入进度
+const answeredCount = computed(() => {
+  if (!scale.value) return 0
+  return scale.value.questions.filter((q) => answers.value[q.id] !== undefined).length
+})
 const unansweredCount = computed(
   () => (scale.value?.questions.length ?? 0) - answeredCount.value,
 )
@@ -65,14 +90,19 @@ function select(value: number) {
   persist()
   // 自动进入下一题（最后一题不跳转，方便提交）
   if (!isLast.value) {
-    if (autoAdvanceTimer.value) clearTimeout(autoAdvanceTimer.value)
+    clearAutoAdvance()
     autoAdvanceTimer.value = setTimeout(() => {
       currentIndex.value++
+      autoAdvanceTimer.value = null
+      // 自动跳转后的位置也要落盘，否则续答会停在上一题
+      persist()
     }, 280)
   }
 }
 
 function goPrev() {
+  // 手动翻页时取消待触发的自动跳转，否则会被它再推前一题
+  clearAutoAdvance()
   if (currentIndex.value > 0) {
     currentIndex.value--
     showMissing.value = false
@@ -82,6 +112,7 @@ function goPrev() {
 
 function goNext() {
   if (!scale.value) return
+  clearAutoAdvance()
   if (answers.value[scale.value.questions[currentIndex.value].id] === undefined) {
     showMissing.value = true
     return

@@ -17,8 +17,8 @@ const featured = scales.slice(0, 6)
       </h1>
       <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">{{ APP_SLOGAN }}</p>
       <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-        精选 {{ scales.length }} 个国际通用的心理自测量表，在线答题、自动计分、即时解读。
-        所有数据仅保存在您的浏览器本地，不上传任何服务器。
+        收录 {{ scales.length }} 个心理自测量表，覆盖抑郁、焦虑、睡眠、人格等方向，
+        在线答题、自动计分、即时解读。所有数据仅保存在您的浏览器本地，不上传任何服务器。
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         <router-link to="/scales" class="btn-primary">浏览全部量表</router-link>
