@@ -39,6 +39,7 @@ export const rses: ScaleConfig = {
     type: 'sum',
     min: 0,
     max: 30,
+    higherIsBetter: true,
     reverse: ['q2', 'q5', 'q6', 'q8', 'q9'],
     bands: [
       {

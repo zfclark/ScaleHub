@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import type { TestRecord } from '@/types/scale'
+import { getScaleById } from '@/data/scales'
+import { bandColorClass } from '@/utils/severity'
 import { useHistoryStore } from '@/stores/history'
 import TrendChart from '@/components/TrendChart.vue'
 import DisclaimerBlock from '@/components/DisclaimerBlock.vue'
@@ -34,14 +37,15 @@ function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
 }
 
-function bandColorClass(scaleId: string, total: number): string {
-  const records = historyStore.sortedRecords.filter((r) => r.scaleId === scaleId)
-  const max = records[0]?.result.max ?? 1
-  const ratio = total / max
-  if (ratio < 0.25) return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300'
-  if (ratio < 0.5) return 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300'
-  if (ratio < 0.75) return 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300'
-  return 'bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300'
+// 等级徽章配色与结果页一致：按等级在分级序列中的位置取色，
+// 而非 总分/满分 比值（对正向计分量表会反向，对纯维度型量表无意义）
+function bandClass(record: TestRecord): string {
+  const scale = getScaleById(record.scaleId)
+  return bandColorClass(
+    scale?.scoring.bands,
+    record.result.band,
+    scale?.scoring.higherIsBetter,
+  )
 }
 
 function download(content: string, filename: string, type: string) {
@@ -50,8 +54,12 @@ function download(content: string, filename: string, type: string) {
   const a = document.createElement('a')
   a.href = url
   a.download = filename
+  // 部分浏览器要求锚点在文档中才会触发下载
+  document.body.appendChild(a)
   a.click()
-  URL.revokeObjectURL(url)
+  document.body.removeChild(a)
+  // 延迟释放：立即 revoke 可能在下载真正启动前就把 URL 失效掉
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
 function exportJson() {
@@ -148,7 +156,7 @@ function confirmDelete() {
               >
                 <div class="flex flex-wrap items-center gap-2">
                   <span class="truncate text-sm font-medium">{{ r.scaleTitle }}</span>
-                  <span class="badge" :class="bandColorClass(r.scaleId, r.result.total)">
+                  <span class="badge" :class="bandClass(r)">
                     {{ r.result.band?.label ?? '已完成' }}
                   </span>
                 </div>

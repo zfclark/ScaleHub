@@ -45,6 +45,7 @@ export const swls: ScaleConfig = {
     type: 'sum',
     min: 5,
     max: 35,
+    higherIsBetter: true,
     reverse: [],
     bands: [
       {

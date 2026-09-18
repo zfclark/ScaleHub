@@ -88,6 +88,13 @@ export interface ScoringConfig {
   weights?: Record<string, number>
   /** 总分分级区间（纯维度型量表可不填） */
   bands?: ScoreBand[]
+  /**
+   * 总分是否为「越高越好」。
+   * 默认 false（分数越高表示症状越重，如 PHQ-9 / SAS）。
+   * 对正向计分的量表（如 RSES 自尊、GSES 自我效能、SWLS 生活满意度）需置为 true，
+   * 否则等级徽章与历史记录的配色会反向。
+   */
+  higherIsBetter?: boolean
   /** 维度分（可选） */
   dimensions?: DimensionDef[]
 }

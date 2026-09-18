@@ -71,6 +71,7 @@ export const gses: ScaleConfig = {
     type: 'sum',
     min: 10,
     max: 40,
+    higherIsBetter: true,
     reverse: [],
     bands: [
       {

@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHistoryStore } from '@/stores/history'
 import { getScaleById } from '@/data/scales'
+import { bandColorClass } from '@/utils/severity'
 import CrisisBanner from '@/components/CrisisBanner.vue'
 import DisclaimerBlock from '@/components/DisclaimerBlock.vue'
 
@@ -17,16 +18,15 @@ const scale = computed(() => (record.value ? getScaleById(record.value.scaleId) 
 
 const result = computed(() => record.value?.result)
 
-const bandColor = computed(() => {
-  if (!result.value?.band) return 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200'
-  const total = result.value.total
-  const max = result.value.max
-  const ratio = total / max
-  if (ratio < 0.25) return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300'
-  if (ratio < 0.5) return 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300'
-  if (ratio < 0.75) return 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300'
-  return 'bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300'
-})
+// 配色依据等级在分级序列中的位置，而非 总分/满分 比值
+// （后者对正向计分量表与纯维度型量表都会给出错误或无语义的颜色）
+const bandClass = computed(() =>
+  bandColorClass(
+    scale.value?.scoring.bands,
+    result.value?.band,
+    scale.value?.scoring.higherIsBetter,
+  ),
+)
 
 const completedAtLabel = computed(() =>
   record.value
@@ -73,7 +73,7 @@ const completedAtLabel = computed(() =>
         {{ result.total }}
         <span class="text-base font-normal text-slate-400">/ {{ result.max }}</span>
       </p>
-      <span v-if="result.band" class="badge mt-4 px-4 py-1.5 text-sm" :class="bandColor">
+      <span v-if="result.band" class="badge mt-4 px-4 py-1.5 text-sm" :class="bandClass">
         {{ result.band.label }}
       </span>
     </section>
