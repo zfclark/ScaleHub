@@ -18,6 +18,8 @@ import { APP_VERSION_NAME } from '@/version'
       <p>
         <router-link to="/privacy" class="hover:underline">隐私说明</router-link>
         ·
+        <router-link to="/changelog" class="hover:underline">更新日志</router-link>
+        ·
         <router-link to="/about" class="hover:underline">关于项目</router-link>
       </p>
     </div>

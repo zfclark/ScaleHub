@@ -42,6 +42,12 @@ const router = createRouter({
       meta: { title: '关于' },
     },
     {
+      path: '/changelog',
+      name: 'changelog',
+      component: () => import('@/views/ChangelogView.vue'),
+      meta: { title: '更新日志' },
+    },
+    {
       path: '/privacy',
       name: 'privacy',
       component: () => import('@/views/PrivacyView.vue'),

@@ -6,6 +6,10 @@ import {
   APP_SLOGAN,
   CHANGELOG,
 } from '@/version'
+
+/** 关于页只展示最新版本的若干条摘要，完整更新日志见 /changelog */
+const SUMMARY_ITEMS = 3
+const latest = CHANGELOG[0] ?? null
 </script>
 
 <template>
@@ -42,25 +46,46 @@ import {
       </ul>
     </section>
 
-    <section>
-      <h2 class="mb-3 text-lg font-semibold">更新日志</h2>
-      <div class="space-y-4">
-        <article v-for="entry in CHANGELOG" :key="entry.version" class="card p-5">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-base font-bold">{{ entry.name }}</span>
-            <span class="font-mono text-xs text-slate-400">v{{ entry.version }}</span>
-            <span class="text-xs text-slate-500 dark:text-slate-400">{{ entry.date }}</span>
-            <span
-              v-if="entry === CHANGELOG[0]"
-              class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
-            >
-              最新
-            </span>
-          </div>
-          <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            <li v-for="(item, i) in entry.items" :key="i">{{ item }}</li>
-          </ul>
-        </article>
+    <section class="card space-y-4 p-5">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-semibold text-slate-800 dark:text-slate-100">更新日志</h2>
+          <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            当前版本 <strong>{{ APP_VERSION_NAME }}</strong>，已记录
+            {{ CHANGELOG.length }} 个版本的变更内容。
+          </p>
+        </div>
+        <router-link
+          to="/changelog"
+          class="flex-shrink-0 text-sm text-indigo-600 hover:underline dark:text-indigo-400"
+        >
+          查看完整更新日志 →
+        </router-link>
+      </div>
+
+      <div v-if="latest" class="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold">{{ latest.name }}</span>
+          <span class="font-mono text-xs text-slate-400">v{{ latest.version }}</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400">{{ latest.date }}</span>
+          <span
+            class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
+          >
+            最新
+          </span>
+        </div>
+        <ul
+          class="mt-2.5 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
+        >
+          <li v-for="(item, i) in latest.items.slice(0, SUMMARY_ITEMS)" :key="i">{{ item }}</li>
+        </ul>
+        <router-link
+          v-if="latest.items.length > SUMMARY_ITEMS"
+          to="/changelog"
+          class="mt-2 inline-block text-xs text-indigo-600 hover:underline dark:text-indigo-400"
+        >
+          还有 {{ latest.items.length - SUMMARY_ITEMS }} 条变更 →
+        </router-link>
       </div>
     </section>
 
