@@ -35,11 +35,27 @@ function evalCondition(value: number, condition: string): boolean {
   }
 }
 
-/** 求某题选项中的最大分值（用于反向计分） */
-function maxOptionValue(config: ScaleConfig, questionId: string): number {
+/** 求某题选项的分值区间（用于反向计分与满分推算） */
+function optionRange(config: ScaleConfig, questionId: string): { min: number; max: number } {
   const q = config.questions.find((item) => item.id === questionId)
-  if (!q || q.options.length === 0) return 0
-  return Math.max(...q.options.map((o) => o.value))
+  if (!q || q.options.length === 0) return { min: 0, max: 0 }
+  const values = q.options.map((o) => o.value)
+  return { min: Math.min(...values), max: Math.max(...values) }
+}
+
+/** 求某题选项中的最大分值（用于维度满分推算） */
+function maxOptionValue(config: ScaleConfig, questionId: string): number {
+  return optionRange(config, questionId).max
+}
+
+/**
+ * 反向计分：将得分翻转到选项区间的对称位置。
+ * 对区间 [min, max] 取 `min + max - raw`，因此
+ * 0-3 分制得 3-raw、1-4 分制得 5-raw、1-5 分制得 6-raw，均与各量表原计分规则一致。
+ */
+function reverseScore(config: ScaleConfig, questionId: string, raw: number): number {
+  const { min, max } = optionRange(config, questionId)
+  return min + max - raw
 }
 
 /** 在 bands 中查找分数所属区间 */
@@ -74,9 +90,11 @@ export function computeResult(config: ScaleConfig, answers: Record<string, numbe
     const raw = answers[q.id]
     if (raw === undefined) continue
     answered++
+    // 被排除的题目不计入总分（仍参与其所属维度分）
+    if (config.scoring.totalExcludes?.includes(q.id)) continue
     const weight = config.scoring.weights?.[q.id] ?? 1
     const value = config.scoring.reverse.includes(q.id)
-      ? maxOptionValue(config, q.id) - raw
+      ? reverseScore(config, q.id, raw)
       : raw
     rawTotal += value * weight
   }
@@ -93,7 +111,7 @@ export function computeResult(config: ScaleConfig, answers: Record<string, numbe
       if (raw === undefined) continue
       const weight = config.scoring.weights?.[qid] ?? 1
       const value = config.scoring.reverse.includes(qid)
-        ? maxOptionValue(config, qid) - raw
+        ? reverseScore(config, qid, raw)
         : raw
       score += value * weight
     }

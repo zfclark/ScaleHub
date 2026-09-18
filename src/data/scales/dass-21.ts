@@ -59,7 +59,9 @@ export const dass21: ScaleConfig = {
   scoring: {
     type: 'sum',
     min: 0,
-    max: 126,
+    // 总分为 21 题的原始分之和（0-63），不含维度的 ×2 折算；
+    // 维度分各自 ×2 后与 DASS-42 对照，结果解读以维度分为准
+    max: 63,
     reverse: [],
     dimensions: [
       {

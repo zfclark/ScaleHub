@@ -14,8 +14,10 @@ import {
       <h1 class="text-2xl font-bold">关于 {{ APP_NAME }}</h1>
       <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
         {{ APP_NAME }}（{{ APP_SUBTITLE }}）是一个纯前端的心理自测量表集合与自我了解工具。
-        {{ APP_SLOGAN }}项目提供的量表均为国际通用的公开量表，
-        用于帮助您更好地觉察自己的情绪、压力与自我认知状态。
+        {{ APP_SLOGAN }}项目收录的量表多为国际通用的公开量表，
+        用于帮助您更好地觉察自己的情绪、压力与自我认知状态；其中少数受版权保护的量表
+        （如 MMPI 参考简版、BDI-II、BAI 等）仅供非商业的自我了解参考，
+        正式或商业使用前请先确认授权。
       </p>
       <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
         <span class="badge bg-indigo-50 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300">

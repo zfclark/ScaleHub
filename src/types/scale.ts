@@ -77,6 +77,13 @@ export interface ScoringConfig {
   multiplier?: number
   /** 需要反向计分的题目 id 列表 */
   reverse: string[]
+  /**
+   * 不计入总分的题目 id（可选）。
+   * 用于「存在独立子量表、但总分只统计其中一部分题目」的情形，
+   * 例如 SDQ 的亲社会行为维度：5 个条目单独计分，不进入困难总分。
+   * 被排除的题目仍会正常参与其所属维度分的计算。
+   */
+  totalExcludes?: string[]
   /** 题目权重（可选），key 为题目 id */
   weights?: Record<string, number>
   /** 总分分级区间（纯维度型量表可不填） */

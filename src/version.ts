@@ -1,7 +1,7 @@
 /** 应用版本信息：与 package.json 及 README 保持一致 */
-export const APP_VERSION = '1.1.0'
+export const APP_VERSION = '1.2.0'
 /** 展示用版本号（V + 语义化版本） */
-export const APP_VERSION_NAME = 'V1.1.0'
+export const APP_VERSION_NAME = 'V1.2.0'
 export const APP_NAME = 'ScaleHub'
 export const APP_SUBTITLE = '心理自测量表集合'
 export const APP_SLOGAN = '用几分钟，更了解自己。'
@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 /** 更新日志：与根目录 CHANGELOG.md 保持一致（应用内「关于」页展示用），发版时两处同步追加 */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.2.0',
+    name: 'V1.2.0',
+    date: '2026-09-19',
+    items: [
+      '新增 15 个心理量表，量表总数由 12 个增至 27 个：SCL-90、GHQ-12、SDS、BDI-II、BAI、MMPI（参考简版）、IPIP-NEO-120、BFI、EPQ-RSC、PSQI、AUDIT、DAST-20、SDQ、CDI、SCARED',
+      '新增多维度量表支持：SCL-90 九因子、MMPI 三效度 + 十临床量表、IPIP-NEO-120 与 BFI 五因素、EPQ-RSC 四维度、SCARED 五维度、SDQ 困难总分与亲社会行为分离计分',
+      '修复反向计分在 1 基李克特量表上的偏差：由「最大值 - 原始分」改为「最小值 + 最大值 - 原始分」，SAS 等选项为 1-4 分的量表反向题不再少计 1 分',
+      '修复 DASS-21 的 scoring.max：由 126 改为 63（总分为 21 题原始分之和，不含各维度的 ×2 折算）',
+      '修复 GitHub Pages 资源路径大小写：vite.config.ts 的 base 由 /scalehub/ 改为 /ScaleHub/，仓库名区分大小写，原路径导致资源请求 404、页面打开后空白',
+      '评分引擎新增 scoring.totalExcludes，支持将特定题目排除在总分之外、但仍参与所属维度分（用于 SDQ 亲社会行为维度）',
+      '升级 GitHub Actions 以适配 Node 20 运行时弃用：checkout@v5、setup-node@v5（node-version 20 → 22）、configure-pages@v6、upload-pages-artifact@v5、deploy-pages@v5',
+      'README 新增「量表授权说明」章节，按 public-domain / free-with-citation / permission-required 三类标注各量表的授权状态与使用限制',
+      'MMPI 收录为自建参考简版（65 题），NEO-PI-R 改用公共领域的 IPIP-NEO-120 替代，相关限制已在量表说明与 README 中明确标注',
+    ],
+  },
   {
     version: '1.1.0',
     name: 'V1.1.0',
